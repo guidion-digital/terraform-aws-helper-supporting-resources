@@ -61,11 +61,8 @@ module "sqs_queues" {
   }
 
   # Dead letter queue
-  create_dlq = true
-  redrive_policy = {
-    maxReceiveCount = 10
-  }
-
+  create_dlq              = true
+  redrive_policy          = each.value.redrive_policy
   create_dlq_queue_policy = length(each.value.readwrite_arns) == 0 && length(each.value.read_arns) == 0 ? false : true
   dlq_queue_policy_statements = {
     self = {
