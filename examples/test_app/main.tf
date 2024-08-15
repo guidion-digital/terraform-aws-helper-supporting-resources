@@ -58,6 +58,7 @@ module "supporting_resources" {
       visibility_timeout_seconds      = 20,
       readwrite_arns                  = ["arn:aws:iam::${data.aws_caller_identity.current.id}:root"]
       read_arns                       = ["arn:aws:iam::${data.aws_caller_identity.current.id}:root"]
+      redrive_policy                  = { maxReceiveCount = 100 }
     }
   }
 }
