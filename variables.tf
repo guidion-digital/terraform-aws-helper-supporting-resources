@@ -85,8 +85,9 @@ variable "sqs_queues" {
     message_retention_seconds       = optional(number, null),
     receive_wait_time_seconds       = optional(number, null),
     visibility_timeout_seconds      = optional(number, null),
-    readwrite_arns                  = optional(list(string), [])
-    read_arns                       = optional(list(string), [])
+    readwrite_arns                  = optional(list(string), []),
+    read_arns                       = optional(list(string), []),
+    redrive_policy                  = optional(map(string), {})
   }))
 
   default = {}
