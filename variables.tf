@@ -87,7 +87,11 @@ variable "sqs_queues" {
     visibility_timeout_seconds      = optional(number, null),
     readwrite_arns                  = optional(list(string), []),
     read_arns                       = optional(list(string), []),
-    redrive_policy                  = optional(map(string), {})
+    redrive_policy = optional(object({
+      maxReceiveCount = optional(number, 10)
+      }), {
+      maxReceiveCount = 10
+    })
   }))
 
   default = {}
