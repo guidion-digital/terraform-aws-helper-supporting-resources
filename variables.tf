@@ -96,3 +96,4 @@ variable "sqs_queues" {
 
   default = {}
 }
+
