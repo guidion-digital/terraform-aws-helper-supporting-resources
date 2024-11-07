@@ -79,8 +79,11 @@ module "sqs_queues" {
     read_write = {
       sid = "ReadWrite"
       actions = [
-        "sqs:SendMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
         "sqs:ReceiveMessage",
+        "sqs:SendMessage",
+        "sqs:StartMessageMoveTask"
       ]
       resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}"]
       principals = [for this_arn in each.value.readwrite_arns : {
