@@ -85,7 +85,7 @@ module "sqs_queues" {
         "sqs:SendMessage",
         "sqs:StartMessageMoveTask"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
       principals = [for this_arn in each.value.readwrite_arns : {
         type        = "AWS"
         identifiers = [this_arn]
@@ -97,7 +97,7 @@ module "sqs_queues" {
       actions = [
         "sqs:ReceiveMessage"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
       principals = [for this_arn in each.value.read_arns : {
         type        = "AWS"
         identifiers = [this_arn]
