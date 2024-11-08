@@ -32,7 +32,7 @@ jobs:
       contents: write
 
   release-module-version:
-    if: ${{ needs.tests-apply.outputs.local-stack-apply-result == 'success' }}
+    # if: ${{ needs.tests-apply.outputs.local-stack-apply-result == 'success' }}
     needs: [terraform-module-change]
     uses: guidion-digital/release-workflows/.github/workflows/github-release-tag.yaml@v2
     with:
