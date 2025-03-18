@@ -65,3 +65,11 @@ module "supporting_resources" {
 
 # Only needed for the example to work
 data "aws_caller_identity" "current" {}
+
+output "sqs" {
+  value = module.supporting_resources.sqs
+}
+
+output "dynamodb" {
+  value = module.supporting_resources.dynamodb
+}
