@@ -35,7 +35,7 @@ module "sqs_queues" {
     self = {
       "Sid" : "self",
       "Version" : "2012-10-17",
-      "Id" : "arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.application_name}-${each.key}/SQSDefaultPolicy"
+      "Id" : "arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${var.application_name}-${each.key}/SQSDefaultPolicy"
     },
     read_write = {
       sid = "ReadWrite"
@@ -46,7 +46,7 @@ module "sqs_queues" {
         "sqs:SendMessage",
         "sqs:StartMessageMoveTask"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${each.key}"]
       principals = [for this_arn in each.value.readwrite_arns : {
         type        = "AWS"
         identifiers = [this_arn]
@@ -57,7 +57,7 @@ module "sqs_queues" {
       actions = [
         "sqs:ReceiveMessage"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${each.key}"]
       principals = [for this_arn in each.value.read_arns : {
         type        = "AWS"
         identifiers = [this_arn]
@@ -73,7 +73,7 @@ module "sqs_queues" {
     self = {
       "Sid" : "self",
       "Version" : "2012-10-17",
-      "Id" : "arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}/SQSDefaultPolicy"
+      "Id" : "arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${each.key}/SQSDefaultPolicy"
     },
 
     read_write = {
@@ -85,7 +85,7 @@ module "sqs_queues" {
         "sqs:SendMessage",
         "sqs:StartMessageMoveTask"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
       principals = [for this_arn in each.value.readwrite_arns : {
         type        = "AWS"
         identifiers = [this_arn]
@@ -97,7 +97,7 @@ module "sqs_queues" {
       actions = [
         "sqs:ReceiveMessage"
       ]
-      resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
+      resources = ["arn:aws:sqs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${each.key}-dlq"]
       principals = [for this_arn in each.value.read_arns : {
         type        = "AWS"
         identifiers = [this_arn]
