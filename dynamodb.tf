@@ -7,11 +7,13 @@ module "dynamodb_table" {
 
   for_each = var.dynamodb_tables
 
-  name                                  = var.namespacing_enabled ? "${var.application_name}-${each.key}" : each.key
-  billing_mode                          = each.value.billing_mode
-  read_capacity                         = each.value.read_capacity
-  write_capacity                        = each.value.write_capacity
-  autoscaling_enabled                   = each.value.autoscaling_enabled
+  name         = var.namespacing_enabled ? "${var.application_name}-${each.key}" : each.key
+  billing_mode = each.value.billing_mode
+  # DynamoDB rejects capacity and autoscaling settings for on-demand tables.
+  # Keep the existing provisioned-capacity defaults for all other tables.
+  read_capacity                         = each.value.billing_mode == "PAY_PER_REQUEST" ? null : each.value.read_capacity
+  write_capacity                        = each.value.billing_mode == "PAY_PER_REQUEST" ? null : each.value.write_capacity
+  autoscaling_enabled                   = each.value.billing_mode == "PAY_PER_REQUEST" ? false : each.value.autoscaling_enabled
   ignore_changes_global_secondary_index = each.value.ignore_changes_global_secondary_index
   ttl_attribute_name                    = each.value.ttl_attribute_name
   ttl_enabled                           = each.value.ttl_attribute_name != "" ? true : false
